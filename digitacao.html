@@ -41,17 +41,57 @@
                 $("#jnl").html(`<span style="color: gray;">${ModifiedText.join('')}</span><span class="blink-underline">${highlightedText.join('')}</span>${textoFaltante.join('')} `)
             }
 
-            $(document).keypress(function (event) {
-                if (event.key == highlightedText) {
-                    cont++
-                    start++
-                    end++
-                    update()
-                }
-                followText()
-            });
+            /*             $(document).keypress(function (event) {
+                            if (event.key == highlightedText) {
+                                cont++
+                                start++
+                                end++
+                                update()
+                            }
+                            followText()
+                        }); */
 
+
+            //jogo 
+            var count = 0;
+            var missed = 0;
+            var score = 0;
+            setInterval(function () {
+                var ball = $('<div class="ball"></div>').css({
+                    'left': Math.random() * ($('#container').width() - 30),
+                    'bottom': '-30px',
+                });
+                var letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                ball.text(letter);
+                $('#container').append(ball);
+                ball.animate({
+                    'bottom': $('#container').height() + 30
+                }, {
+                    duration: 3000,
+                    easing: 'linear',
+                    complete: function () {
+                        $(this).remove();
+                        missed++;
+                        $('#missed span').text(missed);
+                        count++;
+                    }
+                });
+            }, 1000);
+
+            $(document).on('keydown', function (event) {
+                var key = String.fromCharCode(event.which).toUpperCase();
+                $('.ball').each(function () {
+                    if ($(this).text() === key) {
+                        $(this).stop().fadeOut(function () {
+                            $(this).remove();
+                            score++;
+                            $('#score span').text(score);
+                        });
+                    }
+                });
+            })
         });
+
     </script>
     <script type="text/javascript" src="scripts.js"></script>
     <link rel="stylesheet" href="digitacao.css">
@@ -62,6 +102,13 @@
         asdfg asdfg asdfgd asdfg asdfg asdfgd asdfg asdfg asdfgd asdfg asdfg asdfgd aspidjhasdh asdihdas
     </div>
 
+    <div id="container">
+        <div id="score">Score: <span>0</span></div>
+        <div id="missed">Missed: <span>0</span></div>
+
+        
+
+    </div>
 
 </body>
 
