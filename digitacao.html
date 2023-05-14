@@ -10,48 +10,46 @@
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
 
-            var textoTela = $("#jnl").text()
-            const textoDividido = textoTela.split("")
-            let inicial = 0
-            let final = 1
+            var screenText = $("#jnl").text()
+            const SplitText = screenText.split("")
+            let start = 0
+            let end = 1
             let cont = 1
-            let textoModficado = []
-            let textoDestaque = textoDividido.slice(9, 10)
-            let texto = textoDividido.splice(9, textoDividido.length)
+            let ModifiedText = []
+            let highlightedText = SplitText.slice(9, 10)
+            let texto = SplitText.splice(9, SplitText.length)
             let textoFaltante = texto.slice(1, texto.length)
 
-            $("#jnl").html(`<span style="color: gray;">${textoModficado.join('')}</span><span class="blink-underline">${textoDestaque.join('')}</span>${textoFaltante.join('')} `)
+            //server para deixar o texto que o usuario esta digitando sempre na tela caso o texto for grande
+            const followText = () => {
+                var target = $('.blink-underline');
+                var div = $('.texto');
+                div.animate({
+                    scrollTop: target.offset().top - div.offset().top + div.scrollTop() // anima o scroll até a posição do elemento
+                }, 0);
+            }
 
-            const atualiza = () => {
-                textoModficado.push(textoDestaque)
-                textoDestaque = texto.slice(inicial, final)
+            $("#jnl").html(`<span style="color: gray;">${ModifiedText.join('')}</span><span class="blink-underline">${highlightedText.join('')}</span>${textoFaltante.join('')} `)
+
+            followText()
+
+            const update = () => {
+                ModifiedText.push(highlightedText)
+                highlightedText = texto.slice(start, end)
                 textoFaltante = texto.slice(0 + cont, texto.length)
 
-
-                $("#jnl").html(`<span style="color: gray;">${textoModficado.join('')}</span><span class="blink-underline">${textoDestaque.join('')}</span>${textoFaltante.join('')} `)
-
+                $("#jnl").html(`<span style="color: gray;">${ModifiedText.join('')}</span><span class="blink-underline">${highlightedText.join('')}</span>${textoFaltante.join('')} `)
             }
 
             $(document).keypress(function (event) {
-                if (event.key == textoDestaque) {
+                if (event.key == highlightedText) {
                     cont++
-                    inicial++
-                    final++
-                    atualiza()
+                    start++
+                    end++
+                    update()
                 }
-                test()
+                followText()
             });
-
-
-            const test = () => {
-                var target = $('.blink-underline'); // seleciona o elemento com a classe desejada
-                var div = $('.texto'); // seleciona a div com overflow
-                div.animate({
-                    scrollTop: target.offset().top - div.offset().top + div.scrollTop() // anima o scroll até a posição do elemento
-                }, 1);
-            }
-
-
 
         });
     </script>
