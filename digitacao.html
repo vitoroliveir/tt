@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>jQuery Toggle Example</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+
+    </script>
+
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+
+            var textoTela = $("#jnl").text()
+            const textoDividido = textoTela.split("")
+            let inicial = 0
+            let final = 1
+            let cont = 1
+            let textoModficado = []
+            let textoDestaque = textoDividido.slice(9, 10)
+            let texto = textoDividido.splice(9, textoDividido.length)
+            let textoFaltante = texto.slice(1, texto.length)
+
+            $("#jnl").html(`<span style="color: gray;">${textoModficado.join('')}</span><span class="blink-underline">${textoDestaque.join('')}</span>${textoFaltante.join('')} `)
+
+            const atualiza = () => {
+                textoModficado.push(textoDestaque)
+                textoDestaque = texto.slice(inicial, final)
+                textoFaltante = texto.slice(0 + cont, texto.length)
+
+
+                $("#jnl").html(`<span style="color: gray;">${textoModficado.join('')}</span><span class="blink-underline">${textoDestaque.join('')}</span>${textoFaltante.join('')} `)
+
+            }
+
+            $(document).keypress(function (event) {
+                if (event.key == textoDestaque) {
+                    cont++
+                    inicial++
+                    final++
+                    atualiza()
+                }
+                test()
+            });
+
+
+            const test = () => {
+                var target = $('.blink-underline'); // seleciona o elemento com a classe desejada
+                var div = $('.texto'); // seleciona a div com overflow
+                div.animate({
+                    scrollTop: target.offset().top - div.offset().top + div.scrollTop() // anima o scroll até a posição do elemento
+                }, 1);
+            }
+
+
+
+        });
+    </script>
+    <script type="text/javascript" src="scripts.js"></script>
+    <link rel="stylesheet" href="digitacao.css">
+</head>
+
+<body>
+    <div id="jnl" class="texto">
+        asdfg asdfg asdfgd asdfg asdfg asdfgd asdfg asdfg asdfgd asdfg asdfg asdfgd aspidjhasdh asdihdas
+    </div>
+
+
+</body>
+
+</html>
