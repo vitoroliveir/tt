@@ -41,15 +41,15 @@
                 $("#jnl").html(`<span style="color: gray;">${ModifiedText.join('')}</span><span class="blink-underline">${highlightedText.join('')}</span>${textoFaltante.join('')} `)
             }
 
-            /*             $(document).keypress(function (event) {
-                            if (event.key == highlightedText) {
-                                cont++
-                                start++
-                                end++
-                                update()
-                            }
-                            followText()
-                        }); */
+            $(document).keypress(function (event) {
+                if (event.key == highlightedText) {
+                    cont++
+                    start++
+                    end++
+                    update()
+                }
+                followText()
+            });
 
 
             //jogo 
@@ -106,7 +106,7 @@
         <div id="score">Score: <span>0</span></div>
         <div id="missed">Missed: <span>0</span></div>
 
-        
+
 
     </div>
 
